@@ -1,0 +1,98 @@
+{
+    "manifest_version": 3,
+    "name": "مُعين",
+    "version": "1.0",
+    "description": "إضافة معين: تساعد المحاضرين بجامعة تبوك عبر ميزات متقدمة لرصد الغياب، تسجيل الملاحظات والأعمدة المخصصة، وعرض سريع لتفاصيل الغياب.",
+    "icons": {
+        "48": "icon48.png",
+        "128": "icon128.png"
+    },
+    "action": {
+        "default_icon": {
+            "48": "icon48.png"
+        },
+        "default_title": "مُعين"
+    },
+    "host_permissions": [
+        "https://myut.ut.edu.sa/*"
+    ],
+    "permissions": [
+        "storage",
+        "notifications"
+    ],
+    "background": {
+        "service_worker": "background.js"
+    },
+    "content_scripts": [
+        {
+            "matches": ["https://myut.ut.edu.sa/ut/ui/staff/homeIndex.faces*"],
+            "js": [
+                "storage.js",
+                "dom_utils.js",
+                "continuity_tracker.js",
+                "ui_home_panel.js",
+                "main_home.js"
+            ],
+            "css": ["styles.css"],
+            "run_at": "document_idle"
+        },
+        {
+            "matches": ["https://myut.ut.edu.sa/ut/ui/staff/sections/index/sectionsIndex.faces*"],
+            "js": [
+                "storage.js",
+                "dom_utils.js",
+                "main_sections.js"
+            ],
+            "run_at": "document_idle"
+        },
+        {
+            "matches": ["https://myut.ut.edu.sa/ut/ui/staff/insertAbsences/index/insertAbsencesIndex.faces*"],
+            "js": [
+                "storage.js",
+                "utils.js",
+                "dom_utils.js",
+                "continuity_tracker.js",
+                "highlighter.js",
+                "notes.js",
+                "ui_absence_panel.js",
+                "ui_absence_injector.js",
+                "ui_custom_columns.js",
+                "custom_column_injector.js",
+                "absence_tooltip.js",
+                "main_absence.js"
+            ],
+            "css": ["styles.css"],
+            "run_at": "document_idle"
+        },
+        {
+            "matches": ["https://myut.ut.edu.sa/ut/ui/staff/insertAbsences/index/absencesDetailsIndex.faces*"],
+            "js": [
+                "storage.js",
+                "dom_utils.js",
+                "absence_tooltip.js"
+            ],
+            "run_at": "document_idle"
+        },
+        {
+            "matches": ["https://myut.ut.edu.sa/ut/ui/staff/staffSchedule/index/staffScheduleIndex.faces*"],
+            "js": [
+                "storage.js",
+                "continuity_tracker.js",
+                "main_schedule.js"
+            ],
+            "run_at": "document_idle"
+        }
+    ],
+    "web_accessible_resources": [
+        {
+            "resources": [
+                "icon128.png",
+                "icon48.png",
+                "logo.svg"
+            ],
+            "matches": [
+                "https://myut.ut.edu.sa/*"
+            ]
+        }
+    ]
+}

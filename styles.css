@@ -1,0 +1,878 @@
+/* styles.css - Combined styles for both pages */
+
+/* === Absence Highlighting === */
+.highlight-red { background-color: #ffcccc !important; }
+.highlight-yellow { background-color: #ffff99 !important; }
+
+/* === Notes Feature (Absence Page) === */
+#myForm\:studentAbsenceTable th.notes-header { min-width: 60px; text-align: center; }
+#myForm\:studentAbsenceTable td.notes-cell { text-align: center; vertical-align: middle; }
+.notes-icon-button {
+  cursor: pointer; font-size: 1.2em; padding: 2px 5px; border: none;
+  background: none; color: #333; /* Default: Document icon */
+  transition: color 0.3s, font-weight 0.3s;
+}
+.notes-icon-button.has-notes { color: #337ab7; font-weight: bold; } /* Blue: Pencil icon */
+.notes-icon-button:hover { color: #23527c; }
+
+/* === Notes Modal (Single Student - Absence Page) === */
+.notes-modal-overlay { /* Used by both single student and view-all */
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); z-index: 999;
+  display: flex; justify-content: center; align-items: center;
+}
+.notes-modal-content { /* Used by both */
+  background-color: #fff; padding: 20px; border-radius: 8px;
+  min-width: 450px; max-width: 650px; box-shadow: 0 5px 15px rgba(0,0,0,.5);
+  color: #333; max-height: 85vh; display: flex; flex-direction: column;
+}
+.notes-modal-header {
+  border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 10px;
+  font-size: 1.1em; font-weight: bold; color: #555; text-align: right; /* Ensure RTL */
+}
+.notes-modal-body { flex-grow: 1; overflow-y: auto; padding-right: 10px; text-align: right; /* Ensure RTL */ }
+.notes-modal-view { margin-bottom: 15px; }
+.notes-modal-view h5 {
+  margin-top: 0; margin-bottom: 10px; color: #777; font-size: 1em;
+  border-bottom: 1px solid #eee; padding-bottom: 5px;
+}
+.notes-display-area {
+  background-color: #f9f9f9; border: 1px solid #ddd; padding: 10px;
+  margin-bottom: 15px; min-height: 50px; max-height: 180px;
+  overflow-y: auto; white-space: pre-wrap; font-size: 0.9em; color: #444;
+}
+.notes-display-area p { margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px dashed #eee; }
+.notes-display-area p:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+.notes-display-area .other-course-block { margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #ddd; }
+.notes-display-area .other-course-block:last-child { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
+.notes-display-area .other-course-block strong { display: block; margin-bottom: 5px; color: #555; }
+.notes-display-area .other-course-block p { margin-right: 15px; /* Indent right */ border-bottom: none; padding-bottom: 2px; margin-bottom: 2px; font-size: 0.95em; }
+.notes-edit-area label { display: block; margin-bottom: 5px; font-weight: bold; color: #666; }
+.notes-edit-area textarea { width: 98%; min-height: 80px; border: 1px solid #ccc; border-radius: 4px; padding: 8px; font-size: 0.95em; resize: vertical; }
+.notes-modal-footer { border-top: 1px solid #eee; padding-top: 15px; text-align: left; } /* Keep buttons left */
+.notes-modal-button { /* Shared style for modal buttons */
+  padding: 8px 15px; margin-left: 10px; border: 1px solid #ccc;
+  border-radius: 4px; cursor: pointer; font-size: 0.9em;
+}
+.notes-modal-button.save { background-color: #5cb85c; color: white; border-color: #4cae4c; }
+.notes-modal-button.save:hover { background-color: #449d44; border-color: #398439; }
+.notes-modal-button.close-btn, .notes-modal-button.switch-view-btn { background-color: #f0f0f0; color: #333; }
+.notes-modal-button.close-btn:hover, .notes-modal-button.switch-view-btn:hover { background-color: #e0e0e0; }
+.notes-modal-view button.switch-view-btn { margin-top: 15px; display: block; width: 100%; text-align: center; margin-left: 0; }
+
+/* === Control Panel (Shared Base Styles) === */
+.control-panel {
+  border: 1px solid #ccc; background-color: #f9f9f9; padding: 10px 15px;
+  margin-bottom: 15px; border-radius: 5px; font-size: 0.9em;
+  direction: rtl; /* Ensure RTL for panel content */
+}
+.control-panel h4 {
+  margin-top: 0; margin-bottom: 10px; font-size: 1.1em; color: #555;
+  border-bottom: 1px solid #eee; padding-bottom: 5px; text-align: right;
+}
+.control-panel .panel-section { margin-bottom: 10px; }
+.control-panel .panel-actions-container { margin-top: 10px; }
+.control-panel .panel-toggles, .control-panel .panel-note-actions {
+  padding-top: 10px; margin-top: 10px; border-top: 1px solid #eee;
+}
+.control-panel .panel-button { /* Shared style for panel buttons */
+  padding: 5px 10px; border: 1px solid #ccc; border-radius: 4px;
+  cursor: pointer; font-size: 0.9em; background-color: #e7e7e7; margin: 0 5px;
+}
+.control-panel .panel-button:hover { background-color: #d7d7d7; }
+.control-panel .panel-button.danger { background-color: #f7cccc; border-color: #d6aaaa; }
+.control-panel .panel-button.danger:hover { background-color: #f0b6b6; }
+
+/* === Absence Page Control Panel Specifics === */
+.absence-panel { margin-top: 15px; /* Add space above if needed */ }
+.absence-panel .legend-item { margin-left: 20px; display: inline-block; margin-bottom: 5px; vertical-align: middle; } /* Changed margin-right to margin-left for RTL */
+.absence-panel .color-box { display: inline-block; width: 12px; height: 12px; margin-left: 5px; border: 1px solid #aaa; vertical-align: middle; }
+.absence-panel .icon-legend { font-size: 1.2em; margin: 0 3px; vertical-align: middle; display: inline-block; }
+.absence-panel .icon-legend.notes-icon-default { color: #333; }
+.absence-panel .icon-legend.notes-icon-has-notes { color: #337ab7; font-weight: bold; }
+.absence-panel .panel-toggles { display: flex; flex-direction: column; align-items: flex-start; gap: 5px; } /* Align start (right in RTL) */
+.absence-panel .panel-toggles label { cursor: pointer; user-select: none; display: flex; align-items: center; flex-direction: row-reverse; }
+.absence-panel .panel-toggles input[type="checkbox"] { cursor: pointer; vertical-align: middle; margin-left: 8px; } /* Keep margin-left for space */
+.absence-panel .panel-note-actions { display: flex; gap: 10px; justify-content: flex-start; } /* Align start (right in RTL) */
+
+/* === Home Page Control Panel Specifics === */
+.home-panel {
+    max-width: 800px;
+    margin: 15px auto; /* Center panel */
+    margin-top: 20px; /* Add space AFTER the info table */
+}
+.home-panel .panel-section p { margin: 5px 0; text-align: right; }
+.home-panel .semester-warning {
+    border: 1px solid #ffcc00; background-color: #fff8e1; color: #856404;
+    padding: 10px; margin-top: 10px; border-radius: 4px; text-align: center;
+}
+
+/* --- Styles for Accordion Sections (Home Panel) --- */
+.home-panel .panel-section-details {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    background-color: #fff; /* White background for sections */
+}
+.home-panel .panel-section-summary {
+    padding: 10px 15px;
+    cursor: pointer;
+    font-weight: bold;
+    background-color: #f5f5f5; /* Light grey background for summary */
+    border-bottom: 1px solid #ddd;
+    list-style: none; /* Remove default marker */
+    position: relative;
+    color: #337ab7; /* Blue color for section titles */
+}
+.home-panel .panel-section-summary::-webkit-details-marker { display: none; } /* Hide default marker (Chrome/Safari) */
+.home-panel .panel-section-summary::marker { display: none; } /* Hide default marker (Firefox) */
+.home-panel .panel-section-summary::before { /* Custom marker (arrow) */
+    content: '◀'; /* Left arrow for RTL */
+    position: absolute;
+    left: 15px; /* Position on the left */
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.0em;
+    transition: transform 0.2s ease-in-out;
+}
+.home-panel .panel-section-details[open] > .panel-section-summary::before {
+    transform: translateY(-50%) rotate(-90deg); /* Rotate arrow when open */
+}
+.home-panel .panel-section-content {
+    padding: 15px;
+    border-top: 1px solid #eee; /* Separator line */
+    background-color: #ffffff; /* Ensure white background for content */
+}
+.home-panel .panel-section-content p,
+.home-panel .panel-section-content ul,
+.home-panel .panel-section-content li {
+    font-size: 1.0em;
+    line-height: 1.5;
+    text-align: right;
+}
+.home-panel .panel-section-content ul {
+    padding-right: 20px; /* Indent list */
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+/* --- Styles for Sub-Sections (Accordions within Accordions) --- */
+.home-panel .panel-subsection-details {
+    border: 1px solid #eee;
+    border-radius: 3px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background-color: #fdfdfd; /* Slightly different background */
+}
+.home-panel .panel-subsection-summary {
+    padding: 8px 12px;
+    cursor: pointer;
+    font-weight: normal; /* Less emphasis than main sections */
+    background-color: #fafafa;
+    border-bottom: 1px solid #eee;
+    list-style: none;
+    position: relative;
+    font-size: 1.0em;
+    color: #555;
+}
+.home-panel .panel-subsection-summary::-webkit-details-marker { display: none; }
+.home-panel .panel-subsection-summary::marker { display: none; }
+.home-panel .panel-subsection-summary::before {
+    content: '◀';
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.0em;
+    transition: transform 0.2s ease-in-out;
+}
+.home-panel .panel-subsection-details[open] > .panel-subsection-summary::before {
+    transform: translateY(-50%) rotate(-90deg);
+}
+.home-panel .panel-subsection-content {
+    padding: 10px 15px;
+    border-top: 1px solid #f0f0f0;
+    background-color: #ffffff;
+    font-size: 1.5em;
+}
+.home-panel .panel-subsection-content p,
+.home-panel .panel-subsection-content ul,
+.home-panel .panel-subsection-content li {
+    font-size: 0.9em; /* Slightly smaller text in subsections */
+}
+.home-panel .panel-subsection-content ul {
+    padding-right: 15px;
+}
+
+/* --- Styles for Assigned Sections List (within Accordion) --- */
+.home-panel .assigned-sections-list {
+    list-style: none;
+    padding: 0; /* Remove default padding */
+    margin: 0;
+    max-height: none; /* Remove height limit as it's inside accordion */
+    overflow-y: visible;
+    background-color: transparent; /* Use parent background */
+    border: none; /* Remove border */
+}
+.home-panel .assigned-sections-list .course-item { /* Style for each course entry */
+     border-bottom: 1px dotted #eee;
+     margin-bottom: 5px;
+     padding-bottom: 5px;
+}
+.home-panel .assigned-sections-list .course-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+.home-panel .assigned-sections-list .course-item .panel-subsection-summary {
+    background-color: #f0f8ff; /* Light blue background for course summaries */
+    font-weight: bold;
+    color: #4682b4; /* Steel blue color */
+}
+
+
+/* === View All Notes Modal (Shared Styles with Single Student Modal) === */
+#viewAllNotesModalBody { flex-grow: 1; overflow-y: auto; padding-right: 10px; }
+#viewAllNotesModalBody .student-notes-block { margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px dashed #ccc; }
+#viewAllNotesModalBody .student-notes-block:last-child { border-bottom: none; }
+#viewAllNotesModalBody h6 { margin: 0 0 8px 0; color: #337ab7; font-size: 1.05em; text-align: right; }
+#viewAllNotesModalBody p { margin: 0 15px 5px 0; font-size: 0.95em; line-height: 1.4; text-align: right;} /* Indent right */
+#viewAllNotesModalBody p strong { color: #555; }
+
+/* === START: Styles from Hover Details Extension === */
+/* styles.css - For Hover Details Extension */
+
+.details-tooltip {
+  position: absolute; /* Important for positioning near cursor */
+  z-index: 1010; /* Should be above other elements */
+  background-color: #ffffe0; /* Light yellow background */
+  border: 1px solid #b0b090; /* Darker border */
+  padding: 8px 12px;
+  font-size: 0.9em; /* Smaller font size */
+  max-width: 350px; /* Limit width */
+  border-radius: 4px;
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+  pointer-events: none; /* Prevent interaction with the tooltip itself */
+  display: none; /* Hidden by default */
+  line-height: 1.4;
+  color: #333;
+  direction: ltr; /* Ensure tooltip content is LTR */
+  text-align: left; /* Align text left */
+}
+
+.details-tooltip ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 200px; /* Limit height and add scroll if needed */
+    overflow-y: auto;
+}
+
+.details-tooltip li {
+    margin-bottom: 4px;
+    padding-bottom: 4px;
+    border-bottom: 1px dotted #eee;
+}
+
+.details-tooltip li:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+/* Styling for loading/error messages inside tooltip */
+.details-tooltip .loading,
+.details-tooltip .error {
+    font-style: italic;
+    color: #666;
+    text-align: center;
+    padding: 5px;
+}
+
+/* Styling for Course Code title */
+.details-tooltip .tooltip-title {
+    font-weight: bold;
+    margin-bottom: 5px;
+    padding-bottom: 3px;
+    border-bottom: 1px solid #ccc;
+}
+
+/* Styling for stale data warning */
+.details-tooltip .warning {
+    margin-top: 5px;
+    font-size: 0.8em;
+    color: orange;
+    text-align: center;
+}
+/* === END: Styles from Hover Details Extension === */
+
+/* === START: Enhanced Storage Info Styles (Home Panel) === */
+.storage-info-container {
+    background-color: #f0f5f9; /* Light blue-grey background */
+    border: 1px solid #d1e0ec;
+    border-radius: 4px;
+    padding: 10px 15px;
+    margin-bottom: 15px;
+    text-align: right; /* Ensure RTL */
+  }
+  
+  .panel-sub-section { /* General class for bordered subsections */
+     margin-top: 10px;
+     padding-top: 10px;
+     border-top: 1px solid #eee;
+  }
+  
+  
+  .storage-info-label {
+    font-weight: bold;
+    color: #555;
+    margin-bottom: 5px;
+    display: block; /* Ensure it takes full width */
+  }
+  
+  .storage-info-value {
+    font-size: 1.3em; /* Larger font for the value */
+    font-weight: bold;
+    color: #337ab7; /* Blue color for emphasis */
+    text-align: center; /* Center the value */
+    margin-bottom: 5px;
+    direction: ltr; /* Keep value LTR */
+    padding: 5px;
+    background-color: #fff;
+    border-radius: 3px;
+    display: inline-block; /* Allow centering */
+    min-width: 100px; /* Give it some width */
+  }
+  
+  .storage-info-note {
+    font-size: 0.85em;
+    color: #777;
+    margin-top: 5px;
+    display: block; /* Full width */
+  }
+  
+  /* Optional: Adjust danger button margin if needed */
+  #clear-all-lecturer-data-button {
+      margin-top: 10px; /* Ensure spacing from usage info */
+  }
+  /* === END: Enhanced Storage Info Styles === */
+
+  /* === START: Enhanced Course Stats Styles (Home Panel) === */
+.course-stats-container {
+    /* background-color: #fafafa; */ /* Optional subtle background */
+    /* border-top: 1px solid #eee; */ /* Moved to panel-sub-section class */
+    /* padding: 8px 10px; */ /* Moved to panel-sub-section class */
+    /* margin-top: 10px; */ /* Moved to panel-sub-section class */
+    text-align: right; /* Ensure RTL context */
+    line-height: 1.6;
+  }
+  
+  .stat-item {
+    display: inline-block; /* Layout items horizontally */
+    margin-left: 15px; /* Space between items (adjust for RTL) */
+    margin-bottom: 5px; /* Spacing if they wrap */
+    white-space: nowrap; /* Prevent wrapping within an item */
+    background-color: #e9e9e9; /* Light grey background for each stat */
+    padding: 3px 8px;
+    border-radius: 12px; /* Rounded corners */
+    font-size: 0.9em;
+  }
+  
+  .stat-item:last-child {
+     margin-left: 0;
+  }
+  
+  .stat-icon {
+    margin-left: 4px; /* Space icon from text */
+    /* Consider vertical-align: middle; if needed */
+    display: inline-block; /* Ensure proper spacing */
+  }
+  
+  .stat-label {
+    color: #666;
+  }
+  
+  .stat-value {
+    font-weight: bold;
+    color: #333;
+    margin-right: 3px; /* Space value from label */
+  }
+  
+  .stat-value.dismissed {
+    color: #d9534f; /* Red color for dismissed count */
+  }
+   .stat-value.withdrawn {
+    color: #f0ad4e; /* Orange/yellow color for withdrawn count */
+  }
+  
+  .stats-last-updated {
+    font-size: 0.8em;
+    color: #888;
+    margin-top: 8px;
+    display: block; /* Ensure it's on its own line */
+    text-align: left; /* Align timestamp to the left */
+  }
+  
+  .stats-not-available {
+      margin: 5px 0;
+      font-style: italic;
+      color: #999;
+      text-align: center;
+      padding: 5px;
+      background-color: #f9f9f9;
+      border-radius: 3px;
+  }
+  
+  /* === END: Enhanced Course Stats Styles === */
+
+ /* === START: Grid Layout for Absence Panel (4 Columns) === */
+
+.absence-panel .panel-section-content {
+  padding: 10px 15px;
+}
+
+.panel-grid-container {
+  display: grid;
+  /* Define 4 equal flexible columns */
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px; /* Adjust gap slightly if needed for 4 columns */
+  width: 100%;
+  /* Default alignment is stretch, which makes items fill the row height */
+  /* Remove or comment out align-items: start / baseline if previously set */
+  /* align-items: start; */
+  /* align-items: baseline; */
+  align-items: stretch; /* Explicitly set default (optional) */
+}
+
+.panel-grid-item {
+  background-color: #fdfdfd;
+  padding: 12px 15px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  margin: 0 !important; /* Keep margin reset */
+  /* The height will be determined by the tallest item in the row due to align-items: stretch */
+  /* Add internal flex to help content distribute if needed */
+   display: flex;
+   flex-direction: column;
+}
+
+/* Make the General Note section span all 4 columns */
+#grid-item-general-note {
+   grid-column: 1 / -1; /* Span from first to last column line */
+   margin-top: 0; /* Ensure no extra top margin adds to the gap */
+   /* It will automatically be placed on the next row */
+}
+
+/* Adjustments for elements within grid items */
+.panel-grid-item h5,
+.panel-grid-item h6 {
+  margin-top: 0 !important;
+  margin-bottom: 10px;
+  font-size: 0.95em;
+  color: #337ab7;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 5px;
+  flex-shrink: 0; /* Prevent title from shrinking if content is large */
+}
+
+/* Allow content below title to grow if needed */
+.panel-grid-item > *:not(h5):not(h6) {
+    flex-grow: 1;
+}
+
+
+.panel-grid-item .panel-button {
+   margin: 5px 0 5px 5px;
+}
+
+.panel-grid-item .legend-item {
+    margin-bottom: 8px;
+    display: block;
+    font-size: 0.9em;
+}
+.panel-grid-item .legend-item b {
+    display: inline-block;
+    min-width: 50px;
+}
+
+.panel-toggles label {
+    margin-bottom: 8px;
+    display: block;
+}
+
+.panel-general-note textarea {
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 8px;
+    flex-grow: 1; /* Allow textarea to take up space */
+    min-height: 60px; /* Keep min-height */
+}
+.panel-general-note span#general-note-timestamp {
+    margin-top: auto; /* Push timestamp towards the bottom if using flex */
+}
+
+
+/* Responsive adjustments for 4 columns */
+@media (max-width: 1200px) { /* Example: switch to 2 columns on medium screens */
+  .panel-grid-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  /* General Note still spans all columns */
+   #grid-item-general-note {
+      grid-column: 1 / -1; /* Spans 2 columns now */
+   }
+}
+
+@media (max-width: 768px) { /* Example: switch to 1 column on small screens */
+  .panel-grid-container {
+    grid-template-columns: 1fr;
+  }
+   #grid-item-general-note {
+      grid-column: span 1; /* Reset span */
+   }
+}
+#grid-item-general-note #save-general-note-button {
+  align-self: flex-start; /* Align button to the start (usually right in RTL) */
+  /* Or use 'center' if you prefer it centered: */
+  /* align-self: center; */
+
+  /* Optional: Set a max-width if needed */
+  /* max-width: 200px; */
+}
+
+/* === END: Grid Layout for Absence Panel (4 Columns) === */
+
+/* === START: Force Standard Numerals Appearance === */
+
+.ext-standard-numerals {
+  /* Apply a font stack known to use standard 0-9 glyphs */
+  /* Common sans-serif fonts usually work well */
+  font-family: Arial, Verdana, Tahoma, sans-serif !important;
+
+  /* Optional: Ensure Left-to-Right direction specifically for the number container */
+  /* This might help if numbers are part of RTL text but should read LTR */
+  /* direction: ltr; */
+  /* unicode-bidi: embed; */ /* Helps isolate directionality */
+}
+
+/* You might want to apply it broadly to panels/modals if safe */
+/* Uncomment CAUTIOUSLY - test if it affects other Arabic text badly */
+
+.control-panel,
+.notes-modal-content,
+.details-tooltip {
+    font-family: Arial, Verdana, Tahoma, sans-serif !important;
+}
+
+
+/* === END: Force Standard Numerals Appearance === */
+
+/* === START: Panel Title with Logo Styles === */
+
+.panel-title-container {
+  display: flex; /* Use flexbox for alignment */
+  align-items: center; /* Vertically center items */
+  gap: 10px; /* Space between logo and text */
+  margin-bottom: 15px; /* Space below title container */
+  padding-bottom: 10px; /* Space before border */
+  border-bottom: 1px solid #eee; /* Separator line */
+}
+
+.panel-title-logo {
+  height: 38px; /* Adjust size as needed */
+  width: 38px;  /* Adjust size as needed */
+  object-fit: contain; /* Ensure image scales nicely */
+  flex-shrink: 0; /* Prevent logo from shrinking */
+}
+
+.panel-title-text {
+  margin: 0; /* Remove default h4 margin */
+  font-size: 1.2em; /* Adjust title font size if needed */
+  color: #555;
+  font-weight: bold;
+  
+}
+
+/* === END: Panel Title with Logo Styles === */
+
+/* === START: Continuity Tracker Styles (Home Panel) === */
+
+.continuity-tracker-section h4 {
+    font-size: 1em;
+    color: #337ab7;
+    margin-top: 0;
+    margin-bottom: 8px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid #eee;
+    text-align: right; /* Ensure title is RTL */
+}
+
+.continuity-info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5px 15px;
+    margin-bottom: 10px;
+}
+
+.continuity-info-grid p {
+    margin: 0;
+    font-size: 0.9em;
+    color: #333;
+}
+
+.week-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(24px, 1fr));
+    gap: 3px;
+    margin-top: 10px;
+    direction: ltr; /* Ensure grid fills from left to right */
+    text-align: center; /* Center the numbers inside the boxes */
+}
+
+.week-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 24px;
+    border-radius: 3px;
+    font-size: 0.75em;
+    font-weight: bold;
+    color: white;
+    cursor: help;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.week-box.status-green { background-color: #5cb85c; }
+.week-box.status-yellow { background-color: #f0ad4e; }
+.week-box.status-red { background-color: #d9534f; }
+.week-box.status-gray { background-color: #b0b0b0; color: #f0f0f0; }
+
+.continuity-alerts-container {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px dashed #ddd;
+}
+
+.continuity-alert-item {
+    background-color: #fff8e1;
+    border-right: 4px solid #ffb300;
+    padding: 8px 12px;
+    margin-bottom: 8px;
+    font-size: 0.9em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.dismiss-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.dismiss-wrapper small {
+    font-size: 0.85em;
+    color: #666;
+}
+
+.dismiss-button {
+    font-size: 0.8em;
+    padding: 2px 6px;
+    border: 1px solid #ccc;
+    background-color: #f0f0f0;
+    border-radius: 3px;
+    cursor: pointer;
+}
+.dismiss-button:hover {
+    background-color: #e0e0e0;
+}
+
+.summary-warning-icon {
+    color: #f0ad4e;
+    font-weight: bold;
+}
+
+/* === END: Continuity Tracker Styles === */
+
+/* === START: MODERN UI REDESIGN FOR HOME PANEL === */
+
+/* 1. General Font and Body Context */
+/* Apply a modern, system-native font stack to the home panel for better integration */
+.home-panel {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+/* 2. Main Panel Container Style */
+/* Overhaul the main panel to look cleaner and more modern */
+.home-panel {
+    border: none; /* Remove the old border */
+    border-radius: 12px; /* Softer, more modern rounded corners */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* A subtle shadow for a "floating" effect */
+    background-color: #ffffff; /* A clean, pure white background */
+    padding: 12px 20px; /* Adjust padding for better spacing */
+    max-width: 850px; /* Slightly wider for better content layout */
+}
+
+/* 3. Accordion Section Styling */
+/* Style each collapsible section to be cleaner and more distinct */
+.home-panel .panel-section-details {
+    border: 1px solid #e9ecef; /* A very light border for separation */
+    border-radius: 8px; /* Consistent rounded corners */
+    margin-bottom: 12px; /* Space out the sections */
+    background-color: #fff; /* Ensure white background */
+    overflow: hidden; /* Prevents content from spilling out during animations */
+}
+
+/* Remove bottom margin from the last section to align with the panel's bottom padding */
+.home-panel .panel-section-details:last-of-type {
+    margin-bottom: 0;
+}
+
+/* 4. Accordion Summary (The clickable part) */
+/* This is the most interactive element, so it gets a significant facelift */
+.home-panel .panel-section-summary {
+    padding: 15px 20px;
+    font-weight: 600; /* Semi-bold for better readability */
+    background-color: transparent; /* Remove the old grey background */
+    border-bottom: none; /* Remove the separator line; spacing will handle separation */
+    color: #343a40; /* A darker, more professional text color */
+    font-size: 1.05em;
+    display: flex; /* Use flexbox for alignment */
+    align-items: center; /* Center items vertically */
+    gap: 10px; /* Space between icon and text */
+}
+
+/* 5. Custom Chevron Arrow for Accordion */
+/* Replace the default text arrow with a modern, cleaner SVG icon */
+.home-panel .panel-section-summary::before {
+    content: ''; /* Remove the old text content */
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%236c757d'%3e%3cpath fill-rule='evenodd' d='M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-size: 0.9rem;
+    width: 1.25rem;
+    height: 1.25rem;
+    position: static; /* Reset absolute positioning */
+    transform: rotate(0deg); /* Initial state for the arrow */
+    transition: transform 0.25s ease; /* Smooth rotation animation */
+    order: -1; /* Place the arrow before the text */
+    margin-left: 0; /* Reset margin */
+}
+
+/* Rotate the chevron when the section is open */
+.home-panel .panel-section-details[open] > .panel-section-summary::before {
+    transform: rotate(90deg);
+}
+
+/* 6. Accordion Content Area */
+/* Style the content area for better readability and spacing */
+.home-panel .panel-section-content {
+    padding: 5px 25px 20px 25px; /* More horizontal padding to align with the title */
+    border-top: 1px solid #e9ecef; /* Light separator line */
+    background-color: #fcfcfc; /* A very subtle off-white for the content area */
+    color: #495057; /* Softer text color for content */
+}
+
+/* 7. Panel Title Styling */
+/* Ensure the main panel title is well-styled and aligned */
+.home-panel .panel-title-container {
+    gap: 12px;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #e9ecef; /* Lighter border color */
+}
+
+.home-panel .panel-title-logo {
+    height: 32px; /* Slightly smaller logo */
+    width: 32px;
+}
+
+.home-panel .panel-title-text {
+    font-size: 1.4em;
+    font-weight: 700; /* Bolder title */
+    color: #212529; /* Darker, primary text color */
+}
+
+/* === END: MODERN UI REDESIGN FOR HOME PANEL === */
+
+/* === START: FEATURE CARDS STYLING === */
+
+/* 1. Features Grid Container */
+/* This will arrange our cards in a responsive grid */
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* Responsive columns */
+    gap: 16px; /* Space between cards */
+    padding-top: 10px;
+}
+
+/* 2. Individual Feature Card */
+/* The core style for each card */
+.feature-card {
+    background-color: #ffffff;
+    border: 1px solid #f0f0f0; /* Very light border */
+    border-radius: 10px; /* Softer corners */
+    padding: 20px;
+    text-align: center; /* Center all content */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05); /* A subtle shadow */
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Smooth transitions for hover */
+}
+
+/* 3. Hover Effect for Cards */
+/* Make the cards interactive on mouse-over */
+.feature-card:hover {
+    transform: translateY(-5px); /* Lift the card up slightly */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* A more prominent shadow */
+}
+
+/* 4. Feature Icon Styling */
+/* Make the icon large and prominent */
+.feature-card .feature-icon {
+    font-size: 2.5em; /* Large icon size */
+    margin-bottom: 12px;
+    line-height: 1;
+}
+
+/* 5. Feature Title Styling */
+/* Style the title of the feature */
+.feature-card .feature-title {
+    font-size: 1.1em;
+    font-weight: 600; /* Semi-bold */
+    color: #343a40; /* Dark text color */
+    margin-bottom: 6px;
+}
+
+/* 6. Feature Description Styling */
+/* Style the descriptive text */
+.feature-card .feature-description {
+    font-size: 0.9em;
+    color: #6c757d; /* A softer, secondary text color */
+    line-height: 1.5;
+}
+
+/* === END: FEATURE CARDS STYLING === */
+
+/* === START: FEATURE DETAILS BUTTON STYLING === */
+
+.feature-details-btn {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 20px; /* Pill shape */
+    color: #495057;
+    cursor: pointer;
+    font-size: 0.8em;
+    font-weight: 600;
+    margin-top: 15px; /* Space above the button */
+    padding: 6px 12px;
+    transition: background-color 0.2s, color 0.2s;
+    width: auto;
+}
+
+.feature-details-btn:hover {
+    background-color: #e9ecef;
+    color: #212529;
+}
+
+/* === END: FEATURE DETAILS BUTTON STYLING === */
